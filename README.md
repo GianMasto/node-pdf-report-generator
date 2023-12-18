@@ -44,8 +44,13 @@
 ![](https://github.com/GianMasto/node-pdf-report-generator/blob/main/readme/image3.jpg)
 
 
-![](https://github.com/GianMasto/node-pdf-report-generator/blob/main/readme/video1.mov)
 
 
-![](https://github.com/GianMasto/node-pdf-report-generator/blob/main/readme/video2.mov)
+https://github.com/GianMasto/node-pdf-report-generator/assets/21230445/530403eb-518f-42ae-b0f5-4bfb8e1208cc
+
+
+
+https://github.com/GianMasto/node-pdf-report-generator/assets/21230445/0bca61b3-4789-400b-9be4-f32983ead6f1
+
+
 
