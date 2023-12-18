@@ -1,0 +1,1911 @@
+<% function value(field, originalValue) { %>
+<%   if (data === null) { %>
+<%     return `value="${originalValue}"` %>
+<%   } %>
+<%  %>
+<%   return `value="${data.fields[field]}"` %>
+<% } %>
+
+<% function ta(field, originalValue) { %>
+<%   if (data === null) { %>
+<%     return originalValue %>
+<%   } %>
+<%  %>
+<%   return data.fields[field] %>
+<% } %>
+
+<% function opt(field, arrOptions, defaultOption) { %>
+<%   let selectedOption = defaultOption %>
+<%   if(data !== null) { %>
+<%     selectedOption = data?.fields[field] %>
+<%   } %>
+<%   return arrOptions.map(option => (`<option ${option === '' ? 'class="empty-option"' : ''} value="${option}" ${selectedOption === option ? 'selected' : ''}>${option}</option>`)).join('') %>
+<% } %>
+  
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body>
+    <%- include('../partials/navbar') %>
+    <section class="forms py-4 py-lg-5">
+      <div class="container-xl">
+
+        <% if(data?.editMode) { %>
+          <h1 class="text-center fs-2 fw-lighter">EDICIÓN DEL REPORTE</h1>
+          <p class="text-center fst-italic"><%- data.filename %>.pdf</p>
+        <% } %>
+
+        <form
+          id="form-principal"
+          method="POST"
+          class="row g-3"
+          enctype="multipart/form-data"
+          <% if (data === null) { %>
+            action="/report"
+          <% } %>
+
+          <% if (data?.editMode) { %>
+            action="/report/edit?_method=PUT"
+          <% } %>
+
+          >
+
+          <% if (data?.editMode) { %>
+            <input type="hidden" name="_id" value="<%- data.reportId %>">
+          <% } %>
+
+          <div class="col-12">
+            <h3>DATOS DEL VENDEDOR</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" <%- value('nombre', '') %>/>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="poblacion" class="form-label">Población</label>
+            <input
+              type="text"
+              class="form-control"
+              id="poblacion"
+              name="poblacion"
+              <%- value('poblacion', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input
+              type="text"
+              class="form-control"
+              id="telefono"
+              name="telefono"
+              <%- value('telefono', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="pais" class="form-label">País</label>
+            <input type="text" class="form-control" id="pais" name="pais" <%- value('pais', '') %> />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email" <%- value('email', '') %> />
+          </div>
+          <div class="col-12">
+            <h3>DATOS DEL VEHÍCULO</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="matricula" class="form-label">Matrícula</label>
+            <input
+              type="text"
+              class="form-control"
+              id="matricula"
+              name="matricula"
+              <%- value('matricula', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="marca" class="form-label">Marca</label>
+            <input type="text" class="form-control" id="marca" name="marca" <%- value('marca', '') %> />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="modelo" class="form-label">Modelo</label>
+            <input type="text" class="form-control" id="modelo" name="modelo" <%- value('modelo', '') %> />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="anio-modelo" class="form-label">Año Modelo</label>
+            <input
+              type="text"
+              class="form-control"
+              id="anio-modelo"
+              name="anio-modelo"
+              <%- value('anio-modelo', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="bastidor" class="form-label">Bastidor</label>
+            <input
+              type="text"
+              class="form-control"
+              id="bastidor"
+              name="bastidor"
+              <%- value('bastidor', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="color" class="form-label">Color</label>
+            <input type="text" class="form-control" id="color" name="color" <%- value('color', '') %> />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="mod-tec" class="form-label">Mod. Tec.</label>
+            <input
+              type="text"
+              class="form-control"
+              id="mod-tec"
+              name="mod-tec"
+              <%- value('mod-tec', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="c-motor" class="form-label">C. Motor.</label>
+            <input
+              type="text"
+              class="form-control"
+              id="c-motor"
+              name="c-motor"
+              <%- value('c-motor', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="fecha-1-mat" class="form-label">Fecha 1° mat.</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fecha-1-mat"
+              name="fecha-1-mat"
+              <%- value('fecha-1-mat', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="fecha-fin-garantia" class="form-label"
+              >Fecha fin de garantía</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              id="fecha-fin-garantia"
+              name="fecha-fin-garantia"
+              <%- value('fecha-fin-garantia', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="inspeccion-tecnica" class="form-label"
+              >Inspección Técnica</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              id="inspeccion-tecnica"
+              name="inspeccion-tecnica"
+              <%- value('inspeccion-tecnica', '') %>
+              />
+          </div>
+          
+          <div class="col-12">
+            <h3>ACTUACIONES</h3>
+          </div>
+          <div class="col-12">
+            <textarea name="actuaciones" id="actuaciones" cols="30" rows="4" placeholder="Actuaciones..." class="form-control mt-1"><%= ta('actuaciones', '') %></textarea>
+          </div>
+
+
+          <div class="col-12">
+            <h3>ESTADO DEL VEHÍCULO</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="km" class="form-label"
+              >Km</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              id="km"
+              name="km"
+              <%- value('km', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="gasolina" class="form-label"
+              >Gasolina</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              <%- value('gasolina', '/8') %>
+              id="gasolina"
+              name="gasolina"
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="aceite" class="form-label"
+              >Aceite</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              <%- value('aceite', '/8') %>
+              id="aceite"
+              name="aceite"
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="refrigerante" class="form-label"
+              >Refrigerante</label
+              >
+            <input
+              type="text"
+              class="form-control"
+              <%- value('refrigerante', '/8') %>
+              id="refrigerante"
+              name="refrigerante"
+              />
+          </div>      
+          
+          <div class="col-12">
+            <h3>Neumáticos (gráfico)</h3>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex flex-column">
+            <label for="neumatico-delantero-derecho-mm" class="form-label"
+              >Neumático Delantero Derecho <span class="text-lowercase">(mm)</span></label
+              >
+            <input
+              type="text"
+              class="form-control mt-auto"
+              id="neumatico-delantero-derecho-mm"
+              name="neumatico-delantero-derecho-mm"
+              <%- value('neumatico-delantero-derecho-mm', '') %>
+              />
+            <label for="neumatico-delantero-derecho-color" class="form-label mt-1"
+              >Color</label
+              >
+            <select
+              class="form-control"
+              id="neumatico-delantero-derecho-color"
+              name="neumatico-delantero-derecho-color"
+              >
+              <%- opt('neumatico-delantero-derecho-color', ['Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex flex-column">
+            <label for="neumatico-delantero-izquierdo-mm" class="form-label"
+              >Neumático Delantero izquierdo <span class="text-lowercase">(mm)</span></label
+              >
+            <input
+              type="text"
+              class="form-control mt-auto"
+              id="neumatico-delantero-izquierdo-mm"
+              name="neumatico-delantero-izquierdo-mm"
+              <%- value('neumatico-delantero-izquierdo-mm', '') %>
+              />
+            <label for="neumatico-delantero-izquierdo-color" class="form-label mt-1"
+              >Color</label
+              >
+            <select
+              class="form-control"
+              id="neumatico-delantero-izquierdo-color"
+              name="neumatico-delantero-izquierdo-color"
+              >
+              <%- opt('neumatico-delantero-izquierdo-color', ['Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex flex-column">
+            <label for="neumatico-trasero-derecho-mm" class="form-label"
+              >Neumático trasero Derecho <span class="text-lowercase">(mm)</span></label
+              >
+            <input
+              type="text"
+              class="form-control mt-auto"
+              id="neumatico-trasero-derecho-mm"
+              name="neumatico-trasero-derecho-mm"
+              <%- value('neumatico-trasero-derecho-mm', '') %>
+              />
+            <label for="neumatico-trasero-derecho-color" class="form-label mt-1"
+              >Color</label
+              >
+            <select
+              class="form-control"
+              id="neumatico-trasero-derecho-color"
+              name="neumatico-trasero-derecho-color"
+              >
+              <%- opt('neumatico-trasero-derecho-color', ['Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex flex-column">
+            <label for="neumatico-trasero-izquierdo-mm" class="form-label"
+              >Neumático trasero izquierdo <span class="text-lowercase">(mm)</span></label
+              >
+            <input
+              type="text"
+              class="form-control mt-auto"
+              id="neumatico-trasero-izquierdo-mm"
+              name="neumatico-trasero-izquierdo-mm"
+              <%- value('neumatico-trasero-izquierdo-mm', '') %>
+              />
+            <label for="neumatico-trasero-izquierdo-color" class="form-label mt-1"
+              >Color</label
+              >
+            <select
+              class="form-control"
+              id="neumatico-trasero-izquierdo-color"
+              name="neumatico-trasero-izquierdo-color"
+              >
+              <%- opt('neumatico-trasero-izquierdo-color', ['Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <label for="neumatico-dimensiones" class="form-label"
+              >Dimensiones</label
+              >
+            <input
+              type="text"
+              class="form-control mt-auto"
+              id="neumatico-dimensiones"
+              name="neumatico-dimensiones"
+              <%- value('neumatico-dimensiones', '') %>
+              />
+          </div>
+          
+          <% if(!data?.editMode) { %>
+          <div class="col-12">
+            <h3>Daños (gráfico)</h3>
+            <input type="hidden" name="danios-img" id="danios-img">
+          </div>
+          
+
+          <div class="col-12 pb-5" style="overflow-x: scroll;">
+            <div class="p-4">
+              <canvas id="danios-canvas" width="1000" height="700"></canvas>
+            </div>
+            <div class="mt-3">
+              <button class="btn btn-outline-danger add-shape mb-3 me-3" data-shape="square">Añadir "Elemento Ausente"</button>
+              <button class="btn btn-outline-danger add-shape mb-3 me-3" data-shape="triangle">Añadir "Rayada"</button>
+              <button class="btn btn-outline-danger add-shape mb-3 me-3" data-shape="circle">Añadir "Abolladura"</button>
+            </div>
+          </div>
+          <% } %>
+
+          <% if(!data?.editMode) { %>
+          <div class="col-12">
+            <h3>RECORRIDOS REALIZADOS</h3>
+            <input type="hidden" value="0" name="recorridos[cantidad]" id="cantidad-recorridos" />
+          </div>
+
+          <div class="col-12">
+            <div id="recorridos">
+            </div>
+
+            <button class="btn btn-primary" type="text" id="anadir-recorrido">Añadir Recorrido</button>
+          </div>    
+          <% } %>
+
+
+          <div class="col-12">
+            <h3>RESULTADO PRUEBA DINÁMICA</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="comportamiento-del-cambio" class="form-label"
+              >Comportamiento del cambio</label
+              >
+            <select
+              class="form-control"
+              id="comportamiento-del-cambio"
+              name="comportamiento-del-cambio"
+              >
+              <%- opt('comportamiento-del-cambio', ['', 'Correcto', 'Dureza/ruido/rascado'], 'Correcto') %>
+            </select>
+            <textarea name="comportamiento-del-cambio-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('comportamiento-del-cambio-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-del-embrague" class="form-label"
+              >Estado del embrague</label
+              >
+            <select
+              class="form-control"
+              id="estado-del-embrague"
+              name="estado-del-embrague"
+              >
+              <%- opt('estado-del-embrague', ['' ,'Correcto', 'Patina/ruido'], 'Correcto') %>
+            </select>
+            <textarea name="estado-del-embrague-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-del-embrague-comentario', '') %></textarea>
+          </div>
+          <div class="col-12">
+            <h3>INTERIOR</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="interior" class="form-label">interior</label
+              >
+            <select name="interior" id="interior" class="form-control">
+              <%- opt('interior', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="interior-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('interior-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="hora-y-fecha" class="form-label">hora y fecha</label
+              >
+            <select name="hora-y-fecha" id="hora-y-fecha" class="form-control">
+              <%- opt('hora-y-fecha', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="hora-y-fecha-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('hora-y-fecha-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luces-interior" class="form-label">luces interior</label
+              >
+            <select
+              name="luces-interior"
+              id="luces-interior"
+              class="form-control"
+              >
+              <%- opt('luces-interior', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luces-interior-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luces-interior-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="testigos-averia" class="form-label"
+              >testigos avería</label
+              >
+            <select
+              name="testigos-averia"
+              id="testigos-averia"
+              class="form-control"
+              >
+              <%- opt('testigos-averia', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="testigos-averia-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('testigos-averia-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="climatizacion" class="form-label">climatización</label
+              >
+            <select
+              name="climatizacion"
+              id="climatizacion"
+              class="form-control"
+              >
+              <%- opt('climatizacion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="climatizacion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('climatizacion-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-elevalunas-d-d" class="form-label"
+              >estado elevalunas d/d</label
+              >
+            <select
+              name="estado-elevalunas-d-d"
+              id="estado-elevalunas-d-d"
+              class="form-control"
+              >
+              <%- opt('estado-elevalunas-d-d', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-elevalunas-d-d-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-elevalunas-d-d-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-elevalunas-d-izq" class="form-label"
+              >estado elevalunas d/izq</label
+              >
+            <select
+              name="estado-elevalunas-d-izq"
+              id="estado-elevalunas-d-izq"
+              class="form-control"
+              >
+              <%- opt('estado-elevalunas-d-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-elevalunas-d-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-elevalunas-d-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-elevalunas-t-d" class="form-label"
+              >estado elevalunas t/d</label
+              >
+            <select
+              name="estado-elevalunas-t-d"
+              id="estado-elevalunas-t-d"
+              class="form-control"
+              >
+              <%- opt('estado-elevalunas-t-d', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-elevalunas-t-d-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-elevalunas-t-d-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-elevalunas-trasero-izquierdo" class="form-label"
+              >estado elevalunas trasero izquierdo</label
+              >
+            <select
+              name="estado-elevalunas-trasero-izquierdo"
+              id="estado-elevalunas-trasero-izquierdo"
+              class="form-control"
+              >
+              <%- opt('estado-elevalunas-trasero-izquierdo', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-elevalunas-trasero-izquierdo-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-elevalunas-trasero-izquierdo-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="radio" class="form-label">radio</label
+              >
+            <select name="radio" id="radio" class="form-control">
+              <%- opt('radio', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="radio-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('radio-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-cerraduras" class="form-label"
+              >estado cerraduras</label
+              >
+            <select
+              name="estado-cerraduras"
+              id="estado-cerraduras"
+              class="form-control"
+              >
+              <%- opt('estado-cerraduras', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-cerraduras-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-cerraduras-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-cinturones-seguridad" class="form-label"
+              >estado cinturones seguridad</label
+              >
+            <select
+              name="estado-cinturones-seguridad"
+              id="estado-cinturones-seguridad"
+              class="form-control"
+              >
+              <%- opt('estado-cinturones-seguridad', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-cinturones-seguridad-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-cinturones-seguridad-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="guarnecidos" class="form-label">guarnecidos</label
+              >
+            <select name="guarnecidos" id="guarnecidos" class="form-control">
+              <%- opt('guarnecidos', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="guarnecidos-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('guarnecidos-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="parasol-y-retrovisor-interior" class="form-label"
+              >parasol y retrovisor interior</label
+              >
+            <select
+              name="parasol-y-retrovisor-interior"
+              id="parasol-y-retrovisor-interior"
+              class="form-control"
+              >
+              <%- opt('parasol-y-retrovisor-interior', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="parasol-y-retrovisor-interior-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('parasol-y-retrovisor-interior-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="botoneras" class="form-label">botoneras</label
+              >
+            <select name="botoneras" id="botoneras" class="form-control">
+              <%- opt('botoneras', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="botoneras-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('botoneras-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="cenicero-central" class="form-label"
+              >cenicero central</label
+              >
+            <select
+              name="cenicero-central"
+              id="cenicero-central"
+              class="form-control"
+              >
+              <%- opt('cenicero-central', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="cenicero-central-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('cenicero-central-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="encendedor" class="form-label">encendedor</label
+              >
+            <select name="encendedor" id="encendedor" class="form-control">
+              <%- opt('encendedor', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="encendedor-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('encendedor-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="velocimetro" class="form-label">velocímetro</label
+              >
+            <select name="velocimetro" id="velocimetro" class="form-control">
+              <%- opt('velocimetro', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="velocimetro-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('velocimetro-comentario', '') %></textarea>
+
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="cuentarrevoluciones" class="form-label"
+              >cuentarrevoluciones</label
+              >
+            <select
+              name="cuentarrevoluciones"
+              id="cuentarrevoluciones"
+              class="form-control"
+              >
+              <%- opt('cuentarrevoluciones', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="cuentarrevoluciones-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('cuentarrevoluciones-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="cierre-centralizado" class="form-label"
+              >cierre centralizado</label
+              >
+            <select
+              name="cierre-centralizado"
+              id="cierre-centralizado"
+              class="form-control"
+              >
+              <%- opt('cierre-centralizado', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="cierre-centralizado-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('cierre-centralizado-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="asientos-y-tapizados" class="form-label"
+              >asientos y tapizados</label
+              >
+            <select
+              name="asientos-y-tapizados"
+              id="asientos-y-tapizados"
+              class="form-control"
+              >
+              <%- opt('asientos-y-tapizados', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="asientos-y-tapizados-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('asientos-y-tapizados-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="retrovisor-interior" class="form-label"
+              >retrovisor interior</label
+              >
+            <select
+              name="retrovisor-interior"
+              id="retrovisor-interior"
+              class="form-control"
+              >
+              <%- opt('retrovisor-interior', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="retrovisor-interior-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('retrovisor-interior-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="claxon" class="form-label">claxon</label
+              >
+            <select name="claxon" id="claxon" class="form-control">
+              <%- opt('claxon', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="claxon-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('claxon-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="calefaccion" class="form-label">calefacción</label
+              >
+            <select name="calefaccion" id="calefaccion" class="form-control">
+              <%- opt('calefaccion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="calefaccion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('calefaccion-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="aire-acondicionado" class="form-label"
+              >aire acondicionado</label
+              >
+            <select
+              name="aire-acondicionado"
+              id="aire-acondicionado"
+              class="form-control"
+              >
+              <%- opt('aire-acondicionado', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="aire-acondicionado-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('aire-acondicionado-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="gps" class="form-label">gps</label
+              >
+            <select name="gps" id="gps" class="form-control">
+              <%- opt('gps', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="gps-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('gps-comentario', '') %></textarea>
+          </div>
+          
+          <div class="col-12">
+            <h3>diagnosis</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="diagnosis-general" class="form-label"
+              >diagnosis general</label
+              >
+            <select
+              name="diagnosis-general"
+              id="diagnosis-general"
+              class="form-control"
+              >
+              <%- opt('diagnosis-general', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="diagnosis-general-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('diagnosis-general-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-12">
+            <h3>zona exterior delantera</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="danios-carroceria" class="form-label"
+              >daños carrocería</label
+              >
+            <select
+              name="danios-carroceria"
+              id="danios-carroceria"
+              class="form-control"
+              >
+              <%- opt('danios-carroceria', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="danios-carroceria-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('danios-carroceria-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-posicion-delantera" class="form-label"
+              >luz posición</label
+              >
+            <select
+              name="luz-posicion-delantera"
+              id="luz-posicion-delantera"
+              class="form-control"
+              >
+              <%- opt('luz-posicion-delantera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-posicion-delantera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-posicion-delantera-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-corta" class="form-label">luz corta</label
+              >
+            <select name="luz-corta" id="luz-corta" class="form-control">
+              <%- opt('luz-corta', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="luz-corta-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-corta-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-larga" class="form-label">luz larga</label
+              >
+            <select name="luz-larga" id="luz-larga" class="form-control">
+              <%- opt('luz-larga', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="luz-larga-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-larga-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-intermitentes-delantera" class="form-label"
+              >luz intermitentes</label
+              >
+            <select
+              name="luz-intermitentes-delantera"
+              id="luz-intermitentes-delantera"
+              class="form-control"
+              >
+              <%- opt('luz-intermitentes-delantera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-intermitentes-delantera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-intermitentes-delantera-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-nieblas" class="form-label">luz nieblas</label
+              >
+            <select name="luz-nieblas" id="luz-nieblas" class="form-control">
+              <%- opt('luz-nieblas', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="luz-nieblas-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-nieblas-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistema-lavado-faros" class="form-label"
+              >sistema lavado faros</label
+              >
+            <select
+              name="sistema-lavado-faros"
+              id="sistema-lavado-faros"
+              class="form-control"
+              >
+              <%- opt('sistema-lavado-faros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistema-lavado-faros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistema-lavado-faros-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="limpiaparabrisas-delanteros" class="form-label"
+              >limpiaparabrisas delanteros</label
+              >
+            <select
+              name="limpiaparabrisas-delanteros"
+              id="limpiaparabrisas-delanteros"
+              class="form-control"
+              >
+              <%- opt('limpiaparabrisas-delanteros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="limpiaparabrisas-delanteros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('limpiaparabrisas-delanteros-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>zona exterior trasera</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="danios-exterior-trasero" class="form-label"
+              >daños exterior trasero</label
+              >
+            <select
+              name="danios-exterior-trasero"
+              id="danios-exterior-trasero"
+              class="form-control"
+              >
+              <%- opt('danios-exterior-trasero', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="danios-exterior-trasero-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('danios-exterior-trasero-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-freno" class="form-label">luz freno</label
+              >
+            <select name="luz-freno" id="luz-freno" class="form-control">
+              <%- opt('luz-freno', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="luz-freno-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-freno-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-intermitentes-trasera" class="form-label"
+              >luz intermitentes</label
+              >
+            <select
+              name="luz-intermitentes-trasera"
+              id="luz-intermitentes-trasera"
+              class="form-control"
+              >
+              <%- opt('luz-intermitentes-trasera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-intermitentes-trasera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-intermitentes-trasera-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-posicion-trasera" class="form-label"
+              >luz posicion</label
+              >
+            <select
+              name="luz-posicion-trasera"
+              id="luz-posicion-trasera"
+              class="form-control"
+              >
+              <%- opt('luz-posicion-trasera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-posicion-trasera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-posicion-trasera-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-marcha-atras" class="form-label"
+              >luz marcha atrás</label
+              >
+            <select
+              name="luz-marcha-atras"
+              id="luz-marcha-atras"
+              class="form-control"
+              >
+              <%- opt('luz-marcha-atras', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-marcha-atras-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-marcha-atras-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luz-niebla-trasero" class="form-label"
+              >luz niebla trasero</label
+              >
+            <select
+              name="luz-niebla-trasero"
+              id="luz-niebla-trasero"
+              class="form-control"
+              >
+              <%- opt('luz-niebla-trasero', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luz-niebla-trasero-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luz-niebla-trasero-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="limpias-parabrisas-trasero" class="form-label"
+              >limpias parabrisas trasero</label
+              >
+            <select
+              name="limpias-parabrisas-trasero"
+              id="limpias-parabrisas-trasero"
+              class="form-control"
+              >
+              <%- opt('limpias-parabrisas-trasero', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="limpias-parabrisas-trasero-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('limpias-parabrisas-trasero-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>lateral derecho</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-carroceria-derecho" class="form-label"
+              >estado carroceria</label
+              >
+            <select
+              name="estado-carroceria-derecho"
+              id="estado-carroceria-derecho"
+              class="form-control"
+              >
+              <%- opt('estado-carroceria-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-carroceria-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-carroceria-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="retrovisor-derecho" class="form-label"
+              >retrovisor derecho</label
+              >
+            <select
+              name="retrovisor-derecho"
+              id="retrovisor-derecho"
+              class="form-control"
+              >
+              <%- opt('retrovisor-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="retrovisor-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('retrovisor-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="intermitentes-derechos" class="form-label"
+              >intermitentes derechos</label
+              >
+            <select
+              name="intermitentes-derechos"
+              id="intermitentes-derechos"
+              class="form-control"
+              >
+              <%- opt('intermitentes-derechos', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="intermitentes-derechos-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('intermitentes-derechos-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>lateral izquierdo</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-carroceria-izquierdo" class="form-label"
+              >estado carroceria</label
+              >
+            <select
+              name="estado-carroceria-izquierdo"
+              id="estado-carroceria-izquierdo"
+              class="form-control"
+              >
+              <%- opt('estado-carroceria-izquierdo', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-carroceria-izquierdo-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-carroceria-izquierdo-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="retrovisor-izq" class="form-label">retrovisor izq</label
+              >
+            <select
+              name="retrovisor-izq"
+              id="retrovisor-izq"
+              class="form-control"
+              >
+              <%- opt('retrovisor-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="retrovisor-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('retrovisor-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="intermitente-izq" class="form-label"
+              >intermitente izq</label
+              >
+            <select
+              name="intermitente-izq"
+              id="intermitente-izq"
+              class="form-control"
+              >
+              <%- opt('intermitente-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="intermitente-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('intermitente-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>vano motor</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-visual" class="form-label">estado visual</label
+              >
+            <select
+              name="estado-visual"
+              id="estado-visual"
+              class="form-control"
+              >
+              <%- opt('estado-visual', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-visual-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-visual-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nivel-liquido-limpiaparabrisas" class="form-label"
+              >nivel liquido limpiaparabrisas</label
+              >
+            <select
+              name="nivel-liquido-limpiaparabrisas"
+              id="nivel-liquido-limpiaparabrisas"
+              class="form-control"
+              >
+              <%- opt('nivel-liquido-limpiaparabrisas', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="nivel-liquido-limpiaparabrisas-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('nivel-liquido-limpiaparabrisas-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-plasticos-protectores" class="form-label"
+              >estado plásticos/protectores</label
+              >
+            <select
+              name="estado-plasticos-protectores"
+              id="estado-plasticos-protectores"
+              class="form-control"
+              >
+              <%- opt('estado-plasticos-protectores', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-plasticos-protectores-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-plasticos-protectores-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nivel-liquido-anticongelante" class="form-label"
+              >nivel liquido anticongelante</label
+              >
+            <select
+              name="nivel-liquido-anticongelante"
+              id="nivel-liquido-anticongelante"
+              class="form-control"
+              >
+              <%- opt('nivel-liquido-anticongelante', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="nivel-liquido-anticongelante-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('nivel-liquido-anticongelante-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-soportes-de-motor" class="form-label"
+              >estado soportes de motor</label
+              >
+            <select
+              name="estado-soportes-de-motor"
+              id="estado-soportes-de-motor"
+              class="form-control"
+              >
+              <%- opt('estado-soportes-de-motor', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-soportes-de-motor-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-soportes-de-motor-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>MOTOR</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nivel-aceite" class="form-label">nivel aceite</label
+              >
+            <select name="nivel-aceite" id="nivel-aceite" class="form-control">
+              <%- opt('nivel-aceite', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="nivel-aceite-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('nivel-aceite-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistemas-electricos" class="form-label"
+              >sistemas eléctricos</label
+              >
+            <select
+              name="sistemas-electricos"
+              id="sistemas-electricos"
+              class="form-control"
+              >
+              <%- opt('sistemas-electricos', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistemas-electricos-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistemas-electricos-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistema-correa-auxiliar" class="form-label"
+              >sistema correa auxiliar</label
+              >
+            <select
+              name="sistema-correa-auxiliar"
+              id="sistema-correa-auxiliar"
+              class="form-control"
+              >
+              <%- opt('sistema-correa-auxiliar', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistema-correa-auxiliar-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistema-correa-auxiliar-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistema-de-distribucion" class="form-label"
+              >sistema de distribución</label
+              >
+            <select
+              name="sistema-de-distribucion"
+              id="sistema-de-distribucion"
+              class="form-control"
+              >
+              <%- opt('sistema-de-distribucion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistema-de-distribucion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistema-de-distribucion-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistema-escape" class="form-label">sistema escape</label
+              >
+            <select
+              name="sistema-escape"
+              id="sistema-escape"
+              class="form-control"
+              >
+              <%- opt('sistema-escape', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistema-escape-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistema-escape-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-de-aceite-motor" class="form-label"
+              >pérdidas de aceite</label
+              >
+            <select
+              name="perdidas-de-aceite-motor"
+              id="perdidas-de-aceite-motor"
+              class="form-control"
+              >
+              <%- opt('perdidas-de-aceite-motor', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-de-aceite-motor-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-de-aceite-motor-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-refrigerante" class="form-label"
+              >pérdidas refrigerante</label
+              >
+            <select
+              name="perdidas-refrigerante"
+              id="perdidas-refrigerante"
+              class="form-control"
+              >
+              <%- opt('perdidas-refrigerante', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-refrigerante-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-refrigerante-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-combustible" class="form-label"
+              >pérdidas combustible</label
+              >
+            <select
+              name="perdidas-combustible"
+              id="perdidas-combustible"
+              class="form-control"
+              >
+              <%- opt('perdidas-combustible', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-combustible-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-combustible-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-adblue" class="form-label"
+              >pérdidas adblue</label
+              >
+            <select
+              name="perdidas-adblue"
+              id="perdidas-adblue"
+              class="form-control"
+              >
+              <%- opt('perdidas-adblue', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-adblue-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-adblue-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="ralenti-correcto" class="form-label"
+              >ralentí correcto</label
+              >
+            <select
+              name="ralenti-correcto"
+              id="ralenti-correcto"
+              class="form-control"
+              >
+              <%- opt('ralenti-correcto', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="ralenti-correcto-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('ralenti-correcto-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="ruidos-de-motor" class="form-label"
+              >ruidos de motor</label
+              >
+            <select
+              name="ruidos-de-motor"
+              id="ruidos-de-motor"
+              class="form-control"
+              >
+              <%- opt('ruidos-de-motor', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="ruidos-de-motor-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('ruidos-de-motor-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vibraciones" class="form-label">vibraciones</label
+              >
+            <select name="vibraciones" id="vibraciones" class="form-control">
+              <%- opt('vibraciones', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="vibraciones-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vibraciones-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="humos" class="form-label">humos</label
+              >
+            <select name="humos" id="humos" class="form-control">
+              <%- opt('humos', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="humos-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('humos-comentario', '') %></textarea>
+          </div>
+          
+          <div class="col-12">
+            <h3>CIRCUITO REFRIGERACION</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="temperatura-del-motor" class="form-label"
+              >temperatura del motor</label
+              >
+            <select
+              name="temperatura-del-motor"
+              id="temperatura-del-motor"
+              class="form-control"
+              >
+              <%- opt('temperatura-del-motor', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="temperatura-del-motor-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('temperatura-del-motor-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nivel-y-estado-refrigerante" class="form-label"
+              >nivel y estado refrigerante</label
+              >
+            <select
+              name="nivel-y-estado-refrigerante"
+              id="nivel-y-estado-refrigerante"
+              class="form-control"
+              >
+              <%- opt('nivel-y-estado-refrigerante', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="nivel-y-estado-refrigerante-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('nivel-y-estado-refrigerante-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-de-radiadores" class="form-label"
+              >estado de radiadores</label
+              >
+            <select
+              name="estado-de-radiadores"
+              id="estado-de-radiadores"
+              class="form-control"
+              >
+              <%- opt('estado-de-radiadores', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-de-radiadores-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-de-radiadores-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-electroventiladores" class="form-label"
+              >estado electroventiladores</label
+              >
+            <select
+              name="estado-electroventiladores"
+              id="estado-electroventiladores"
+              class="form-control"
+              >
+              <%- opt('estado-electroventiladores', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-electroventiladores-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-electroventiladores-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>SISTEMA EMBRAGUE</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label
+              for="funcionamiento-embrague-sistema-hidraulico"
+              class="form-label"
+              >funcionamiento embrague sistema hidráulico</label
+              >
+            <select
+              name="funcionamiento-embrague-sistema-hidraulico"
+              id="funcionamiento-embrague-sistema-hidraulico"
+              class="form-control"
+              >
+              <%- opt('funcionamiento-embrague-sistema-hidraulico', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="funcionamiento-embrague-sistema-hidraulico-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('funcionamiento-embrague-sistema-hidraulico-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>SISTEMA CAMBIO DE MARCHAS</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="funcionamiento-sistema-manual" class="form-label"
+              >funcionamiento sistema manual</label
+              >
+            <select
+              name="funcionamiento-sistema-manual"
+              id="funcionamiento-sistema-manual"
+              class="form-control"
+              >
+              <%- opt('funcionamiento-sistema-manual', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="funcionamiento-sistema-manual-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('funcionamiento-sistema-manual-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="funcionamiento-sistema-automatico" class="form-label"
+              >funcionamiento sistema automático</label
+              >
+            <select
+              name="funcionamiento-sistema-automatico"
+              id="funcionamiento-sistema-automatico"
+              class="form-control"
+              >
+              <%- opt('funcionamiento-sistema-automatico', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="funcionamiento-sistema-automatico-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('funcionamiento-sistema-automatico-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="sistema-palanquearia" class="form-label"
+              >sistema palanquearía</label
+              >
+            <select
+              name="sistema-palanquearia"
+              id="sistema-palanquearia"
+              class="form-control"
+              >
+              <%- opt('sistema-palanquearia', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="sistema-palanquearia-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('sistema-palanquearia-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>AMORTIGUADORES</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-amortiguador-d-derecho" class="form-label"
+              >estado amortiguador d/derecho</label
+              >
+            <select
+              name="estado-amortiguador-d-derecho"
+              id="estado-amortiguador-d-derecho"
+              class="form-control"
+              >
+              <%- opt('estado-amortiguador-d-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-amortiguador-d-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-amortiguador-d-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-amortiguador-d-izq" class="form-label"
+              >estado amortiguador d/izq</label
+              >
+            <select
+              name="estado-amortiguador-d-izq"
+              id="estado-amortiguador-d-izq"
+              class="form-control"
+              >
+              <%- opt('estado-amortiguador-d-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-amortiguador-d-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-amortiguador-d-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-amortiguador-tra-derecho" class="form-label"
+              >estado amortiguador tra/derecho</label
+              >
+            <select
+              name="estado-amortiguador-tra-derecho"
+              id="estado-amortiguador-tra-derecho"
+              class="form-control"
+              >
+              <%- opt('estado-amortiguador-tra-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-amortiguador-tra-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-amortiguador-tra-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-amortiguador-tra-izq" class="form-label"
+              >estado amortiguador tra/izq</label
+              >
+            <select
+              name="estado-amortiguador-tra-izq"
+              id="estado-amortiguador-tra-izq"
+              class="form-control"
+              >
+              <%- opt('estado-amortiguador-tra-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-amortiguador-tra-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-amortiguador-tra-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>FRENOS</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="discos-delanteros" class="form-label"
+              >discos delanteros</label
+              >
+            <select
+              name="discos-delanteros"
+              id="discos-delanteros"
+              class="form-control"
+              >
+              <%- opt('discos-delanteros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="discos-delanteros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('discos-delanteros-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="discos-traseros" class="form-label"
+              >discos traseros</label
+              >
+            <select
+              name="discos-traseros"
+              id="discos-traseros"
+              class="form-control"
+              >
+              <%- opt('discos-traseros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="discos-traseros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('discos-traseros-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="pastillas-delanteras" class="form-label"
+              >pastillas delanteras</label
+              >
+            <select
+              name="pastillas-delanteras"
+              id="pastillas-delanteras"
+              class="form-control"
+              >
+              <%- opt('pastillas-delanteras', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="pastillas-delanteras-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('pastillas-delanteras-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="pastillas-traseras" class="form-label"
+              >pastillas traseras</label
+              >
+            <select
+              name="pastillas-traseras"
+              id="pastillas-traseras"
+              class="form-control"
+              >
+              <%- opt('pastillas-traseras', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="pastillas-traseras-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('pastillas-traseras-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nivel-liquido-de-freno" class="form-label"
+              >nivel liquido de freno</label
+              >
+            <select
+              name="nivel-liquido-de-freno"
+              id="nivel-liquido-de-freno"
+              class="form-control"
+              >
+              <%- opt('nivel-liquido-de-freno', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="nivel-liquido-de-freno-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('nivel-liquido-de-freno-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-de-liquido-de-freno" class="form-label"
+              >perdidas de liquido de freno</label
+              >
+            <select
+              name="perdidas-de-liquido-de-freno"
+              id="perdidas-de-liquido-de-freno"
+              class="form-control"
+              >
+              <%- opt('perdidas-de-liquido-de-freno', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-de-liquido-de-freno-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-de-liquido-de-freno-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-freno-de-mano" class="form-label"
+              >estado freno de mano</label
+              >
+            <select
+              name="estado-freno-de-mano"
+              id="estado-freno-de-mano"
+              class="form-control"
+              >
+              <%- opt('estado-freno-de-mano', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-freno-de-mano-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-freno-de-mano-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>DIRECCIÓN</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="funcionamiento-direccion" class="form-label"
+              >funcionamiento dirección</label
+              >
+            <select
+              name="funcionamiento-direccion"
+              id="funcionamiento-direccion"
+              class="form-control"
+              >
+              <%- opt('funcionamiento-direccion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="funcionamiento-direccion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('funcionamiento-direccion-comentari', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="perdidas-de-aceite-direccion" class="form-label"
+              >pérdidas de aceite</label
+              >
+            <select
+              name="perdidas-de-aceite-direccion"
+              id="perdidas-de-aceite-direccion"
+              class="form-control"
+              >
+              <%- opt('perdidas-de-aceite-direccion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="perdidas-de-aceite-direccion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('perdidas-de-aceite-direccion-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vibraciones-en-la-direccion" class="form-label"
+              >vibraciones en la dirección</label
+              >
+            <select
+              name="vibraciones-en-la-direccion"
+              id="vibraciones-en-la-direccion"
+              class="form-control"
+              >
+              <%- opt('vibraciones-en-la-direccion', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vibraciones-en-la-direccion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vibraciones-en-la-direccion-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>NEUMÁTICOS</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-llanta-delantera-derecha" class="form-label"
+              >estado llanta delantera derecha</label
+              >
+            <select
+              name="estado-llanta-delantera-derecha"
+              id="estado-llanta-delantera-derecha"
+              class="form-control"
+              >
+              <%- opt('estado-llanta-delantera-derecha', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-llanta-delantera-derecha-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-llanta-delantera-derecha-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-llanta-delantera-izquierda" class="form-label"
+              >estado llanta delantera izquierda</label
+              >
+            <select
+              name="estado-llanta-delantera-izquierda"
+              id="estado-llanta-delantera-izquierda"
+              class="form-control"
+              >
+              <%- opt('estado-llanta-delantera-izquierda', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-llanta-delantera-izquierda-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-llanta-delantera-izquierda-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-llanta-trasera-derecha" class="form-label"
+              >estado llanta trasera derecha</label
+              >
+            <select
+              name="estado-llanta-trasera-derecha"
+              id="estado-llanta-trasera-derecha"
+              class="form-control"
+              >
+              <%- opt('estado-llanta-trasera-derecha', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-llanta-trasera-derecha-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-llanta-trasera-derecha-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-llanta-trasera-izquierda" class="form-label"
+              >estado llanta trasera izquierda</label
+              >
+            <select
+              name="estado-llanta-trasera-izquierda"
+              id="estado-llanta-trasera-izquierda"
+              class="form-control"
+              >
+              <%- opt('estado-llanta-trasera-izquierda', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-llanta-trasera-izquierda-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-llanta-trasera-izquierda-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="comprobacion-presiones-neumaticos" class="form-label"
+              >comprobación presiones neumáticos</label
+              >
+            <select
+              name="comprobacion-presiones-neumaticos"
+              id="comprobacion-presiones-neumaticos"
+              class="form-control"
+              >
+              <%- opt('comprobacion-presiones-neumaticos', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="comprobacion-presiones-neumaticos-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('comprobacion-presiones-neumaticos-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="neumaticos-pinchados" class="form-label"
+              >neumáticos pinchados</label
+              >
+            <select
+              name="neumaticos-pinchados"
+              id="neumaticos-pinchados"
+              class="form-control"
+              >
+              <%- opt('neumaticos-pinchados', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="neumaticos-pinchados-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('neumaticos-pinchados-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-neumaticos-traseros" class="form-label"
+              >estado neumaticos traseros</label
+              >
+            <select
+              name="estado-neumaticos-traseros"
+              id="estado-neumaticos-traseros"
+              class="form-control"
+              >
+              <%- opt('estado-neumaticos-traseros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-neumaticos-traseros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-neumaticos-traseros-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="estado-neumaticos-delanteros" class="form-label"
+              >estado neumaticos delanteros</label
+              >
+            <select
+              name="estado-neumaticos-delanteros"
+              id="estado-neumaticos-delanteros"
+              class="form-control"
+              >
+              <%- opt('estado-neumaticos-delanteros', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="estado-neumaticos-delanteros-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('estado-neumaticos-delanteros-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>ESTADO LUNAS/VIDRIOS</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luna-delantera" class="form-label">luna delantera</label
+              >
+            <select
+              name="luna-delantera"
+              id="luna-delantera"
+              class="form-control"
+              >
+              <%- opt('luna-delantera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="luna-delantera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luna-delantera-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="luna-trasera" class="form-label">luna trasera</label
+              >
+            <select name="luna-trasera" id="luna-trasera" class="form-control">
+              <%- opt('luna-trasera', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="luna-trasera-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('luna-trasera-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-delantero-derecho" class="form-label"
+              >vidrio delantero derecho</label
+              >
+            <select
+              name="vidrio-delantero-derecho"
+              id="vidrio-delantero-derecho"
+              class="form-control"
+              >
+              <%- opt('vidrio-delantero-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-delantero-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-delantero-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-delantero-izq" class="form-label"
+              >vidrio delantero izq</label
+              >
+            <select
+              name="vidrio-delantero-izq"
+              id="vidrio-delantero-izq"
+              class="form-control"
+              >
+              <%- opt('vidrio-delantero-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-delantero-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-delantero-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-trasero-derecho" class="form-label"
+              >vidrio trasero derecho</label
+              >
+            <select
+              name="vidrio-trasero-derecho"
+              id="vidrio-trasero-derecho"
+              class="form-control"
+              >
+              <%- opt('vidrio-trasero-derecho', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-trasero-derecho-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-trasero-derecho-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-trasero-izq" class="form-label"
+              >vidrio trasero izq</label
+              >
+            <select
+              name="vidrio-trasero-izq"
+              id="vidrio-trasero-izq"
+              class="form-control"
+              >
+              <%- opt('vidrio-trasero-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-trasero-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-trasero-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-custodia-delantera-derecha" class="form-label"
+              >vidrio custodia delantera derecha</label
+              >
+            <select
+              name="vidrio-custodia-delantera-derecha"
+              id="vidrio-custodia-delantera-derecha"
+              class="form-control"
+              >
+              <%- opt('vidrio-custodia-delantera-derecha', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-custodia-delantera-derecha-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-custodia-delantera-derecha-comentario', '') %></textarea>
+            </select>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="vidrio-custodia-delantero-izq" class="form-label"
+              >vidrio custodia delantero izq</label
+              >
+            <select
+              name="vidrio-custodia-delantero-izq"
+              id="vidrio-custodia-delantero-izq"
+              class="form-control"
+              >
+              <%- opt('vidrio-custodia-delantero-izq', ['', 'Verde', 'Amarillo', 'Rojo'], 'Verde') %>
+              <textarea name="vidrio-custodia-delantero-izq-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('vidrio-custodia-delantero-izq-comentario', '') %></textarea>
+            </select>
+          </div>
+          
+          <div class="col-12">
+            <h3>Documentación</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="pasar-itv" class="form-label"
+              >el v.h necesita pasar ITV?</label
+              >
+            <select name="pasar-itv" id="pasar-itv" class="form-control">
+              <%- opt('pasar-itv', ['', 'Verde', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="pasar-itv-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('pasar-itv-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="documentacion-original-itv" class="form-label"
+              >el v.h tiene la documentación original necesaria para la ITV? </label
+              >
+            <select
+              name="documentacion-original-itv"
+              id="documentacion-original-itv"
+              class="form-control"
+              >
+              <%- opt('documentacion-original-itv', ['', 'Verde', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="documentacion-original-itv-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('documentacion-original-itv-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="libro-de-mantenimiento-instrucciones" class="form-label"
+              >el v.h tiene los libros de mantenimiento e instrucciones? </label
+              >
+            <select
+              name="libro-de-mantenimiento-instrucciones"
+              id="libro-de-mantenimiento-instrucciones"
+              class="form-control"
+              >
+              <%- opt('libro-de-mantenimiento-instrucciones', ['', 'Verde', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="libro-de-mantenimiento-instrucciones-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('libro-de-mantenimiento-instrucciones-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="permiso-de-circulacion" class="form-label"
+              >el v.h tiene permiso de circulación? </label
+              >
+            <select
+              name="permiso-de-circulacion"
+              id="permiso-de-circulacion"
+              class="form-control"
+              >
+              <%- opt('permiso-de-circulacion', ['', 'Verde', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="permiso-de-circulacion-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('permiso-de-circulacion-comentario', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="ficha-tecnica" class="form-label"
+              >el v.h tiene ficha técnica?</label
+              >
+            <select
+              name="ficha-tecnica"
+              id="ficha-tecnica"
+              class="form-control"
+              >
+              <%- opt('ficha-tecnica', ['', 'Verde', 'Rojo'], 'Verde') %>
+            </select>
+            <textarea name="ficha-tecnica-comentario" id="" cols="30" rows="4" placeholder="Comentario" class="form-control mt-1"><%- ta('ficha-tecnica-comentario', '') %></textarea>
+          </div>
+          <div class="col-12">
+            <h3>Datos del Perito</h3>
+          </div>
+          <div class="col-12">
+            <label for="valoracion-perito" class="form-label">Valoración Personal</label>
+            <textarea name="valoracion-perito" id="valoracion-perito" cols="30" rows="4" class="form-control mt-1"><%- ta('valoracion-perito', '') %></textarea>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="nombre-perito" class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre-perito"
+              name="nombre-perito"
+              <%- value('nombre-perito', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="lugar-perito" class="form-label">Lugar</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lugar-perito"
+              name="lugar-perito"
+              <%- value('lugar-perito', '') %>
+              />
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <label for="fecha-perito" class="form-label">Fecha</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fecha-perito"
+              name="fecha-perito"
+              <%- value('fecha-perito', '') %>
+              />
+          </div>
+          
+          <% if(!data?.editMode) { %>
+          <div class="col-12">
+            <label for="firma" class="form-label">Firma</label>
+            <input type="hidden" id="firma-input" name="firma" />
+            <br />
+            <canvas id="firma"></canvas>
+            <br />
+            <button type="button" id="borrar-firma" class="btn btn-dark">
+            Borrar Firma
+            </button>
+            <div id="firma-contenedor-invisible"></div>
+          </div>
+          <% } %>
+          
+          <% if(!data?.editMode) { %>
+          <div class="col-12">
+            <h3>Archivos</h3>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <input
+              class="form-control"
+              type="file"
+              id="archivos"
+              name="archivos"
+              multiple
+              />
+          </div>
+          <% } %>
+          <% if(!data?.editMode) { %>
+          <div
+            class="col-12 pt-5 pb-4 pb-md-5 mt-md-5 d-flex justify-content-center"
+            >
+            <p id="texto-generar" class="d-none">Generando PDF...</p>
+            <button type="submit" class="btn btn-primary btn-lg" id="generar">
+            Generar PDF
+            </button>
+          </div>
+          <% } %>
+
+          <% if(data?.editMode) { %>
+          <div
+            class="col-12 pt-5 pb-4 pb-md-5 mt-md-5 d-flex justify-content-center"
+            >
+            <button type="submit" class="btn btn-primary btn-lg">
+            Editar PDF
+            </button>
+          </div>
+          <% } %>
+
+        </form>
+      </div>
+    </section>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/signature_pad.umd.min.js"></script>
+    <script src="/js/fabric.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>
